@@ -35,28 +35,4 @@ def webhook():
         return jsonify({"status": "sell order sent"})
 
     return jsonify({"status": "unknown action"})
--------------------------------------------------------------------------------
-# === Run the server ===
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
 
-// Load higher timeframe trend (e.g., 1H on 15min chart)
-emaHTF = request.security(syminfo.tickerid, "60", ta.ema(close, 50))
-trendConfirm = close > emaHTF  // Use only if price is above HTF trend
-
-// Add this to your buySignal condition:
-buySignal := buySignal and trendConfirm
----------------------------------------------------------------------------------
-reversalBuy = ta.crossover(close, lowerBB) and rsi < 40
-reversalSell = ta.crossunder(close, upperBB) and rsi > 60
-
-if reversalBuy
-    strategy.entry("Reversal Buy", strategy.long)
-    strategy.exit("TP/SL Reversal", from_entry="Reversal Buy", profit=takeProfitPerc * 0.01, loss=stopLossPerc * 0.01)
-
-if reversalSell
-    strategy.entry("Reversal Sell", strategy.short)
-    strategy.exit("TP/SL Reversal", from_entry="Reversal Sell", profit=takeProfitPerc * 0.01, loss=stopLossPerc * 0.01)
-
-alertcondition(reversalBuy, title="Reversal Buy Alert", message="Reversal Buy Triggered!")
-alertcondition(reversalSell, title="Reversal Sell Alert", message="Reversal Sell Triggered!")
